@@ -1,5 +1,5 @@
 {
-	"timeZone": "America/New_York",
+	"timezone": "America/New_York",
 	"devPort": 8085,
 	"development": {
 		"dataSource": "http://127.0.0.1:8080/departures/Departures.csv",

@@ -5,7 +5,6 @@ Data is periodically broadcasted using Socket.io, but could be polled
 */
 
 /* Timezone */
-
 process.env.TZ = 'America/New_York';
 
 /* Create Express instance */

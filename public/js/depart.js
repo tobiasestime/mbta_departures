@@ -66,13 +66,15 @@ Additional JS to manipulate data visibility
 			/* If origin is not selected station, add hidden styling class */
 			var visibility = (origin === stationSelect.selection ? "" : " hidden");
 			/* Hide track info if cancelled; maybe move server-side */
-			var track = this.props.status === "worse" || this.props.status === "departed" ? "-" : this.props.track;
+			var trackFormat = this.props.status === "worse" || this.props.status === "departed" ? "-" : this.props.track;
+			/* Adjust status for "alert" style (cell only) */
+			var statusFormat = this.props.status === "alert" ? "imminent" : this.props.status;
 			return (
-				<tr className={origin + " " + this.props.status + visibility}>
+				<tr className={origin + " " + statusFormat + visibility}>
 					<td className="center">{this.props.trip}</td>
 					<td>{this.props.destination}</td>
-					<td>{formattedTime[0] + " " + formattedTime[1]}</td>
-					<td className="center">{track}</td>
+					<td><span className={this.props.status}>{formattedTime[0] + " " + formattedTime[1]}</span></td>
+					<td className="center">{trackFormat}</td>
 				</tr>
 			);
 		}

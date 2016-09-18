@@ -32,24 +32,24 @@ function _makeHumanReadable(timestamp, offset) {
 
 /* Return a simplfied status for styling classes */
 function _getStatus(status) {
-	var statusOptions = [ "normal", "good", "imminent", "bad", "worse", "departed", "unknown" ];
+	var statusOptions = [ "normal", "good", "imminent", "alert", "bad", "worse", "departed", "unknown" ];
 	var selections = {
 		OnTime: statusOptions[0],
 		Arriving: statusOptions[1],
 		NowBoarding: statusOptions[2],
 		Arrived: statusOptions[2],
-		AllAboard:statusOptions[2],
-		Delayed: statusOptions[3],
-		Late: statusOptions[3],
-		Hold: statusOptions[3],
-		Cancelled: statusOptions[4],
-		End: statusOptions[4],
-		Departed: statusOptions[5],
-		Infotofollow: statusOptions[6],
-		TBD: statusOptions[6]
+		AllAboard:statusOptions[3],
+		Delayed: statusOptions[4],
+		Late: statusOptions[4],
+		Hold: statusOptions[4],
+		Cancelled: statusOptions[5],
+		End: statusOptions[5],
+		Departed: statusOptions[6],
+		Infotofollow: statusOptions[7],
+		TBD: statusOptions[7]
 	};
 	
-	return (Object.keys(selections).indexOf(status) > -1) ? selections[status] : statusOptions[6];
+	return (Object.keys(selections).indexOf(status) > -1) ? selections[status] : statusOptions[7];
 }
 
 module.exports = {

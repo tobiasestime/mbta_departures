@@ -23,18 +23,18 @@
 			<p id="updated"></p>
 			<p class="smaller">Select Station:</p>
 			<!-- station selection -->
-			<button id="NorthStation" class="station-select">North Station</button>
-			<button id="SouthStation" class="station-select">South Station</button>
+			<button id="NorthStation" class="station-select nonselect">North Station</button>
+			<button id="SouthStation" class="station-select nonselect">South Station</button>
 			<br>
 			<!-- consider dynamic generation; possibly save space -->
 			<div id="legend-box">
-				<table class="legend-table">
+				<table class="legend-table nonselect">
 					<tbody>
 						<tr>
 							<td class="normal">On Time</td>
 							<td class="good">Arriving</td>
 							<td class="imminent">Departing Soon</td>
-						</tr>
+						</tr>	
 						<tr>
 							<td class="bad">Delayed</td>
 							<td class="worse">Cancelled</td>
@@ -43,13 +43,13 @@
 					</tbody>
 				</table>
 			</div>
-			<table id="departureHeader">
+			<table id="departureHeader" class="nonselect">
 				<tbody>
 					<tr>
-						<th>Train</th>
-						<th>Destination</th>
-						<th>Dep<span class="cut">arture</span></th>
-						<th>Track</th>
+						<td>Train</td>
+						<td>Destination</td>
+						<td>Time</td>
+						<td>Track</td>
 					</tr>
 				</tbody>
 			</table>

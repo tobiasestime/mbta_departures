@@ -1,0 +1,14 @@
+{
+	"timeZone": "America/New_York",
+	"devPort": 8085,
+	"development": {
+		"dataSource": "http://127.0.0.1:8080/departures/Departures.csv",
+		"dataTimeout": 5000,
+		"broadcastTime": 10000
+	},
+	"production": {
+		"dataSource": "http://developer.mbta.com/lib/gtrtfs/Departures.csv",
+		"dataTimeout": 5000,
+		"broadcastTime": 30000
+	}
+}

@@ -1,0 +1,49 @@
+TimeStamp,Origin,Trip,Destination,ScheduledTime,Lateness,Track,Status
+1474158600,North Station,129,Rockport,1474158600,0,4554,All Aboard
+1474158600,North Station,433,Fitchburg,1474162200,0,,On Time
+1474158600,North Station,229,Haverhill,1474167600,0,7,Now Boarding
+1474158600,North Station,347,Lowell,1474174800,0,,RandomText
+1474158600,North Station,183,Newburyport,1474183800,0,,On Time
+1474158600,North Station,1301,Lowell,1474194600,0,,TBD
+1474158600,North Station,1101,Rockport,1474207200,0,,Departed
+1474158600,North Station,1401,Fitchburg,1474221600,0,,On Time
+1474158600,North Station,1201,Haverhill,1474237800,0,12,All Aboard
+1474158600,North Station,1151,Newburyport,1474255800,0,,On Time
+1474158600,North Station,1303,Lowell,1474275600,0,,RandomText
+1474158600,North Station,1103,Rockport,1474297200,0,,End
+1474158600,North Station,1403,Fitchburg,1474320600,0,,On Time
+1474158600,North Station,1203,Haverhill,1474345800,0,,Info to follow
+1474158600,North Station,1153,Newburyport,1474372800,0,,Hold
+1474158600,North Station,1305,Lowell,1474401600,0,,On Time
+1474158600,North Station,1105,Rockport,1474432200,0,,On Time
+1474158600,South Station,631,Needham Heights,1474464600,0,4,All Aboard
+1474158600,South Station,539,Worcester / Union Station,1474498800,0,,On Time
+1474158600,South Station,731,Forge Park / 495,1474534800,0,6,Arrived
+1474158600,South Station,839,Providence,1474572600,0,90,Arrived
+1474158600,South Station,1501,Worcester / Union Station,1474612200,0,,On Time
+1474158600,South Station,1801,Providence,1474653600,0,,RandomText
+1474158600,South Station,1751,Readville,1474696800,0,,On Time
+1474158600,South Station,1601,Needham Heights,1474741800,4033,,Delayed
+1474158600,South Station,1703,Forge Park / 495,1474788600,0,,On Time
+1474158600,South Station,1753,Readville,1474837200,0,,Departed
+1474158600,South Station,1071,Greenbush,1474887600,0,,On Time
+1474158600,South Station,1051,Kingston,1474939800,45,,Late
+1474158600,South Station,1503,Worcester / Union Station,1474993800,124,,Late
+1474158600,South Station,1001,Middleboro/Lakeville,1475049600,3600,,Late
+1474158600,South Station,1755,Readville,1475107200,223,,Late
+1474158600,South Station,1603,Needham Heights,1475166600,7342,,Late
+1474158600,North Station,333,Fitchburg,1475227800,0,,On Time
+1474158600,North Station,1456,Haverhill,1475290800,0,,Info to follow
+1474158600,North Station,8347,Newburyport,1475355600,0,,Hold
+1474158600,North Station,2368,Lowell,1475422200,0,,On Time
+1474158600,North Station,234,Rockport,1475490600,0,,On Time
+1474158600,South Station,12,Needham Heights,1475560800,0,20,All Aboard
+1474158600,South Station,436,Worcester / Union Station,1475632800,0,,On Time
+1474158600,South Station,789,Forge Park / 495,1475706600,0,3,Arrived
+1474158600,South Station,345,Providence,1475782200,0,6,Arrived
+1474158600,South Station,217,Worcester / Union Station,1475859600,0,,On Time
+1474158600,South Station,363,Providence,1475938800,0,,RandomText
+1474158600,South Station,8865,Readville,1476019800,0,,On Time
+1474158600,South Station,3452,Needham Heights,1476102600,1,,Delayed
+1474158600,South Station,689,Forge Park / 495,1476187200,0,,On Time
+1474158600,South Station,782,Readville,1476273600,0,,Departed

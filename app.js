@@ -1,50 +1,49 @@
 /*
-Serves the requests for the application using Express.js
-Data is periodically broadcasted using Socket.io, but could be polled
-from clients via AJAX to access controller actions that performs GET
-requests for data.
+Serves requests for the application using Express.js
+Data is periodically broadcasted using Socket.io
 */
 
-/* Timezone */
-process.env.TZ = 'America/New_York';
-
-/* Create Express instance */
-var express = require('express');
-var app = express();
-var http = require('http');
-/* Create server instance listening listening on environment's port or 8085 */
-var server = http.Server(app).listen((process.env.PORT || 8085), () => {
-	console.log(`Listening on port ${(process.env.PORT || 8085)}`);
-});
-/* Create socket instance that shares server*/
-var io = require('socket.io')(server);
+/* Import configuration values; set timezone */
+var settings = require('./settings.json');
+var port = settings.devPort;
+process.env.TZ = settings.timezone;
 
 /* Helper functions for converting CSV to JSON */
 var convert = require('./convert.js');
 
-/* Values separated to be accessed easily, changed, added to, etc. */
-var values = {
-	/* dataSource: 'http://127.0.0.1:8080/departures/Departures.csv', */
-	dataSource: 'http://developer.mbta.com/lib/gtrtfs/Departures.csv',
-	dataTimeout: 5000,
-	broadcastTime: 30000
-}
+/* Create Express, http instances */
+var express = require('express');
+var app = express();
+var http = require('http');
+
+/* Create server instance listening on environment's port or settings.devPort (8085) */
+var server = http.Server(app).listen((process.env.PORT || port), () => {
+	if (app.get('env') !== 'production')
+		console.log(`Listening on port ${port}`);
+});
+
+/* Create Socket.io instance that shares server with Express */
+var io = require('socket.io')(server);
+
+/* Set mode; development or production */
+settings = settings[app.get('env')];
 
 /* Designation of static resources (js, css, etc.) */
 app.use(express.static(__dirname + '/public'));
 
-/* The only route used by the single-page application (when using socket.io instead of using AJAX) */
+
+/* The only route used by the single-page application (when using Socket.io instead of using AJAX) */
 app.get('/', (req, res) => {
 	res.sendFile('/index.html');
 });
 
-/* Handle production 404s */
+/* Handle 404s */
 app.use(function(req, res, next) {
 	res.status(404).send('Not here. Not today. Try https://tdepartures.herokuapp.com');
 });
 
 /*
-Access the departure data API and emit events for broadcast
+Access the departure data API and emit events
 Could cache most recent data rather than repeating request for new connections
 */
 function emitFromHttp(socket, URI) {
@@ -62,7 +61,7 @@ function emitFromHttp(socket, URI) {
 				/* Data integrity checks could be implemented here before responding */
 				socket.emit('update', convert.csvToObjectArray(allData, 'scheduledtime'));
 			}).on('error', updateError);
-		}).setTimeout(values.dataTimeout, updateError).on('error', updateError);
+		}).setTimeout(settings.dataTimeout, updateError).on('error', updateError);
 	}
 	catch (err) {
 		updateError();
@@ -73,17 +72,14 @@ function emitFromHttp(socket, URI) {
 	}
 }
 
-/*
-When clients connect, broadcast the CSV data as JSON using emitFromHttp
-Broadcast new data from 'dataSource' every 'broadcastInt' seconds
-*/
+/* When clients connect, broadcast new data from 'dataSource' every 'broadcastInt' seconds */
 io.on('connection', (socket) => {
 	/* Initial broadcast */
-	emitFromHttp(socket, values.dataSource);
+	emitFromHttp(socket, settings.dataSource);
 	/* Subsequent broadcasts */
 	var trains = setInterval(() => {
-		emitFromHttp(socket, values.dataSource);
-	}, values.broadcastTime);
+		emitFromHttp(socket, settings.dataSource);
+	}, settings.broadcastTime);
 	socket.on('disconnect', () => {
 		clearInterval(trains);
 	});

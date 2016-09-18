@@ -13,22 +13,6 @@ function _parseCsvStrings(arrayIn) {
 	});
 }
 
-/* Convert timestamp to human readable time */
-function _makeHumanReadable(timestamp, offset) {
-	/* Second to milliseconds*/
-	var dateTime = new Date((timestamp + offset) * 1000);
-	/* Format minutes portion */
-	var minutes = dateTime.getMinutes();
-		minutes = minutes < 10 ? "0" + minutes : minutes;
-	/* Convert 24-hour to AM/PM */
-	var timePart = dateTime.getHours();
-	var hourPart = (timePart % 12) === 0 ? 12 : (timePart % 12);
-		timePart = timePart >= 12 ? hourPart + ":" + minutes + " PM" : hourPart + ":" + minutes + " AM";
-	var datePart = (dateTime.getMonth() + 1) + "-" + dateTime.getDate() + "-" + (dateTime.getYear() + 1900);
-	
-	return timePart + " " + datePart;
-}
-
 /* Return a simplfied status for styling classes (app-specific) */
 function _getStatus(status) {
 	var statusOptions = [ "normal", "good", "imminent", "alert", "bad", "worse", "departed", "unknown" ];
@@ -54,6 +38,21 @@ function _getStatus(status) {
 
 /* Expose the csvToObjectArray to the program importing this file */
 module.exports = {
+	/* Convert timestamp to human readable time */
+	makeHumanReadable: function(timestamp, offset) {
+		/* Second to milliseconds*/
+		var dateTime = new Date((timestamp + offset) * 1000);
+		/* Format minutes portion */
+		var minutes = dateTime.getMinutes();
+			minutes = minutes < 10 ? "0" + minutes : minutes;
+		/* Convert 24-hour to AM/PM */
+		var timePart = dateTime.getHours();
+		var hourPart = (timePart % 12) === 0 ? 12 : (timePart % 12);
+			timePart = timePart >= 12 ? hourPart + ":" + minutes + " PM" : hourPart + ":" + minutes + " AM";
+		var datePart = (dateTime.getMonth() + 1) + "-" + dateTime.getDate() + "-" + (dateTime.getYear() + 1900);
+		
+		return timePart + " " + datePart;
+	},
 	/* Convert CSV rows to array of objects */
 	csvToObjectArray: function (csv, sortOn) {
 		/*
@@ -90,13 +89,13 @@ module.exports = {
 		/* App-specific formatting */
 		/* Single timestamp to be returned. If there is no timestamp, make one for seconds */
 		var singleTime = { timestamp: objectArray[0] === undefined ? (Number(new Date()) / 1000) : objectArray[0]["timestamp"] };
-		singleTime.timestamp = _makeHumanReadable(singleTime.timestamp, 0);
+		singleTime.timestamp = this.makeHumanReadable(singleTime.timestamp, 0);
 
 		objectArray.forEach((rowObject) => {
 			/* Simplify status indicator */
 			rowObject["status"] = _getStatus(rowObject["status"].replace(/ /g, ""));
 			/* Add lateness seconds to scheuled time only */
-			rowObject["scheduledtime"] = _makeHumanReadable(rowObject["scheduledtime"], rowObject["lateness"]);
+			rowObject["scheduledtime"] = this.makeHumanReadable(rowObject["scheduledtime"], rowObject["lateness"]);
 			/* Lateness is accounted for already, so we can remove it */
 			delete rowObject["lateness"];
 			/* Only one timestamp will be returned */

@@ -4,8 +4,8 @@
   "description": "MBTA train departures",
   "main": "index.js",
   "scripts": {
-    "test": "test",
-    "start": "node app.js"
+    "test": "node test.js",
+    "start": "NODE_ENV=production node app.js"
   },
   "keywords": [
     "MBTA",

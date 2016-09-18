@@ -88,16 +88,22 @@ module.exports = {
 		});
 
 		/* App-specific formatting */
+		/* Single timestamp to be returned. If there is no timestamp, make one for seconds */
+		var singleTime = { timestamp: objectArray[0] === undefined ? (Number(new Date()) / 1000) : objectArray[0]["timestamp"] };
+		singleTime.timestamp = _makeHumanReadable(singleTime.timestamp, 0);
+
 		objectArray.forEach((rowObject) => {
 			/* Simplify status indicator */
 			rowObject["status"] = _getStatus(rowObject["status"].replace(/ /g, ""));
-			/* Format timestamp */
-			rowObject["timestamp"] = _makeHumanReadable(rowObject["timestamp"], 0);
 			/* Add lateness seconds to scheuled time only */
 			rowObject["scheduledtime"] = _makeHumanReadable(rowObject["scheduledtime"], rowObject["lateness"]);
 			/* Lateness is accounted for already, so we can remove it */
 			delete rowObject["lateness"];
+			/* Only one timestamp will be returned */
+			delete rowObject["timestamp"];
 		});
+		
+		objectArray.unshift(singleTime);
 
 		return objectArray;
 	}

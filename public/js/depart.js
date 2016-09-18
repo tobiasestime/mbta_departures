@@ -73,10 +73,10 @@ Additional JS to manipulate data visibility
 			var statusFormat = this.props.status === "alert" ? "imminent" : this.props.status;
 			return (
 				<tr className={origin + " " + statusFormat + visibility}>
-					<td className="center">{this.props.trip}</td>
+					<td>{this.props.trip}</td>
 					<td>{this.props.destination}</td>
 					<td><span className={this.props.status}>{formattedTime[0]}<span className="smaller">{" " + formattedTime[1]}</span></span></td>
-					<td className="center">{trackFormat}</td>
+					<td>{trackFormat}</td>
 				</tr>
 			);
 		}
@@ -108,7 +108,33 @@ Additional JS to manipulate data visibility
 
 	/* Listen for "update" events and update React with data from server */
 	socket.on("update", function(departures) {
-		document.getElementById("updated").innerHTML = "Updated " + departures[0].timestamp + " (Boston)";
+		/* Check flags from server */
+		if (departures.length === 1 && "timestamp" in departures[0]) {
+			/* API is available, but not returning train data */
+			messageUser("Updated " + departures[0].timestamp + " (Boston)", "updateInfo");
+			messageUser("No trains are scheduled to depart.", "info");
+		}
+		else if (departures[0].flag === "NODATA") {
+			/* API is not available */
+			messageUser("Train information is currently unavailable. Please try again later.", "updateInfo");
+			clearMessage("info");
+		}
+		else {
+			/* API is available */
+			messageUser("Updated " + departures[0].timestamp + " (Boston)", "updateInfo");
+			clearMessage("info");
+		}
+		/* Render without timestamp */
+		departures.shift();
 		reactDepartures.updateData(departures);
 	});
+
+	function messageUser(message, to) {
+		document.getElementById(to).innerHTML = message;
+	}
+
+	function clearMessage(from) {
+		document.getElementById(from).innerHTML = "";
+	}
+
 })(jQuery);

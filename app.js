@@ -38,30 +38,39 @@ app.get('/', (req, res) => {
 	res.sendFile('/index.html');
 });
 
+/* Handle production 404s */
+app.use(function(req, res, next) {
+	res.status(404).send('Not here. Not today. Try https://tdepartures.herokuapp.com');
+});
+
 /*
 Access the departure data API and emit events for broadcast
 Could cache most recent data rather than repeating request for new connections
 */
 function emitFromHttp(socket, URI) {
-	/* http GET request for train departure data */
-	http.get(URI, (httpRes) => {
-		/* Gather chunks of data as they are sent */
-		var allData = '';
-		httpRes.setEncoding('utf8').on('data', (partData) => {
-			allData += partData;
-		});
-		/* Broadcast data formatted from CSV to JSON once all chunks from the request are gathered */
-		httpRes.on('end', () => {
-			/* Data integrity checks could be implemented here before responding */
-			socket.emit('update', convert.csvToObjectArray(allData, 'scheduledtime'));
-			/* Notifications or analytics might be implemented in production to track performance */
-		});
-	}).setTimeout(values.dataTimeout, () => {
-		/* Flags to notify clients of problems getting data */
-		socket.emit('update', [{flag: 'TIMEOUT'}]);
-	}).on('error', () => {
+	/* Handle errors from output */
+	try {
+		/* http GET request for train departure data */
+		http.get(URI, (httpRes) => {
+			/* Gather chunks of data as they are sent */
+			var allData = '';
+			httpRes.setEncoding('utf8').on('data', (partData) => {
+				allData += partData;
+			});
+			/* Broadcast data formatted from CSV to JSON once all chunks from the request are gathered */
+			httpRes.on('end', () => {
+				/* Data integrity checks could be implemented here before responding */
+				socket.emit('update', convert.csvToObjectArray(allData, 'scheduledtime'));
+			}).on('error', updateError);
+		}).setTimeout(values.dataTimeout, updateError).on('error', updateError);
+	}
+	catch (err) {
+		updateError();
+	}
+	/* Send generic error flag to client awaiting update */
+	function updateError() {
 		socket.emit('update', [{flag: 'NODATA'}]);
-	});
+	}
 }
 
 /*

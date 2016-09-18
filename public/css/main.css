@@ -1,3 +1,4 @@
+/* Fallback font */
 @font-face {
 	font-family: 'open sans';
 		src: url('fonts/OpenSans-Regular.eot');
@@ -22,6 +23,7 @@ h1, p {
 	margin: 6px 0px;
 }
 
+/* Buttons for selecting station (default) */
 .station-select {
 	margin-bottom: 4px;
 	border: 1px solid #ccc;
@@ -31,24 +33,26 @@ h1, p {
 	background: #fff;
 }
 
+/* Selected button */
 .selected {
 	color: #fff;
 	background: #812b5a;
-	border: 1px solid transparent;
+	border: 1px solid #812b5a;
 }
 
+/* Floating header, semi-transparent background */
 #header {
 	width: 100%;
 	position: fixed;
 	top: 0px;
-	background: rgba(255, 255, 255, 0.9);
-	background: url('images/white_glass.png'); 
+	background: url('images/white_glass.png');
+	background: rgba(255, 255, 255, 0.8);
 	box-shadow: 0px 1px 2px #666;
 	cursor: default;
 	z-index: 10;
 }
 
-#updated {
+#updateInfo {
 	font-size: 1.1em;
 }
 
@@ -78,6 +82,7 @@ table {
 	padding: 2px 0px;
 }
 
+/* Separate header for departureTable */
 #departureHeader {
 	margin: 0px auto;
 }
@@ -88,6 +93,7 @@ table {
 	background: #222;
 }
 
+/* Align header and table with specified widths */
 #departureHeader td:nth-child(1),
 #departureTable td:nth-child(1) {
 	width: 14%;
@@ -108,11 +114,20 @@ table {
 	border-bottom: 1px solid #fff;	
 }
 
+/* Div populated with data from React.js */
 #content {
 	margin: 230px auto 0px;
 	display: inline-block;
 }
 
+#info {
+	width: 100%;
+	margin: 230px auto 0px;
+	font-size: 1.2em;
+	position: fixed;
+}
+
+/* Status indicator colors */
 .normal {
 	background: #5dc9ff;
 }
@@ -125,6 +140,7 @@ table {
 	background: #3add6e;
 }
 
+/* Flashing animation for all aboard status */
 .alert {
 	font-weight: bold;
 	animation: flash 2s ease-in-out infinite;
@@ -139,7 +155,7 @@ table {
 }
 
 .worse {
-	background: #f0ab66;
+	background: #d2a67b;
 }
 
 .departed {
@@ -150,6 +166,7 @@ table {
 	background: #eee;
 }
 
+/* General classes */
 .bolder {
 	font-weight: bold;
 }
@@ -170,19 +187,20 @@ table {
 }
 
 footer {
-	padding-bottom: 15px;
+	padding: 15px 0px;
 }
 
+/* Resposiveness */
 @media (max-width: 600px) {
 	h1 {
 		font-size: 20px;
 	}
 
-	#updated {
+	#updateInfo {
 		font-size: 16px;
 	}
 
-	#content {
+	#content, #info {
 		margin: 215px auto 0px;
 	}
 }
@@ -196,7 +214,7 @@ footer {
 		width: 100%;
 	}
 
-	#content {
+	#content, #info {
 		margin: 205px auto 0px;
 	}
 

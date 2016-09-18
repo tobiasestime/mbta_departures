@@ -24,16 +24,17 @@ h1, p {
 
 .station-select {
 	margin-bottom: 4px;
-	border: 1px solid #222;
-	border-radius: 2px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
 	font-size: 1em;
+	color: #000;
 	background: #fff;
 }
 
-/* Default selection */
-button#NorthStation {
+.selected {
 	color: #fff;
-	background-color: #812b5a;
+	background: #812b5a;
+	border: 1px solid transparent;
 }
 
 #header {
@@ -44,28 +45,19 @@ button#NorthStation {
 	background: url('images/white_glass.png'); 
 	box-shadow: 0px 1px 2px #666;
 	cursor: default;
+	z-index: 10;
 }
 
 #updated {
 	font-size: 1.1em;
-	font-weight: bold;
 }
 
-.smaller {
-	font-size: 0.9em;
-}
-
-#content {
-	margin: 245px auto 0px;
-	display: inline-block;
-}
-
-#content, #departureHeader, #legend-box {
+#legend-box, #departureHeader, #content {
 	width: 450px;
 }
 
 #legend-box {
-	margin: 0px auto 4px;
+	margin: 0px auto 2px;
 	display: inline-block;
 }
 
@@ -83,12 +75,7 @@ table {
 }
 
 .legend-table td {
-	padding: 5px;
-}
-
-select {
-	text-align: center;
-	font-size: 1em;
+	padding: 2px 0px;
 }
 
 #departureHeader {
@@ -96,33 +83,34 @@ select {
 }
 
 #departureHeader td {
-	padding: 10px 4px;
-	font-weight: bold;
+	padding: 8px 4px;
 	color: #fff;
 	background: #222;
 }
 
 #departureHeader td:nth-child(1),
 #departureTable td:nth-child(1) {
-	width: 17%;
+	width: 14%;
 }
 
 #departureHeader td:nth-child(2),
 #departureTable td:nth-child(2) {
-	width: 55%;
+	width: 50%;
 }
 
-#departureHeader td:nth-child(4),
-#departureTable td:nth-child(4) {
-	width: 8%;
+#departureHeader td:nth-child(3),
+#departureTable td:nth-child(3) {
+	width: 20%;
 }
 
 #departureBox td {
 	padding: 5px 0px;
+	border-bottom: 1px solid #fff;	
 }
 
-#departureBox th, #departureBox td {
-	border-bottom: 1px solid #fff;
+#content {
+	margin: 230px auto 0px;
+	display: inline-block;
 }
 
 .normal {
@@ -162,8 +150,12 @@ select {
 	background: #eee;
 }
 
-footer {
-	padding-bottom: 15px;
+.bolder {
+	font-weight: bold;
+}
+
+.smaller {
+	font-size: 0.9em;
 }
 
 .hidden {
@@ -177,6 +169,24 @@ footer {
 	user-select: none;
 }
 
+footer {
+	padding-bottom: 15px;
+}
+
+@media (max-width: 600px) {
+	h1 {
+		font-size: 20px;
+	}
+
+	#updated {
+		font-size: 16px;
+	}
+
+	#content {
+		margin: 215px auto 0px;
+	}
+}
+
 @media (max-width: 450px) {
 	body {
 		font-size: 0.9em;
@@ -185,9 +195,9 @@ footer {
 	#legend-box, #content, #departureTable, #departureHeader {
 		width: 100%;
 	}
-	
-	#departureBox th {
-		padding: 10px 1px;
+
+	#content {
+		margin: 205px auto 0px;
 	}
 
 	.cut {

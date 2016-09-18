@@ -17,14 +17,14 @@
 		<script src="js/remarkable.min.js"></script>
 	</head>
 	<body>
-		<div id="header">
+		<div id="header" class="nonselect">
 			<h1>T Commuter Rail <span class="cut">Departures</span></h1>
 			<!-- changes on update from Socket -->
-			<p id="updated"></p>
-			<p class="smaller">Select Station:</p>
-			<!-- station selection -->
-			<button id="NorthStation" class="station-select nonselect">North Station</button>
-			<button id="SouthStation" class="station-select nonselect">South Station</button>
+			<p id="updated" class="bolder"></p>
+			<p class="smaller">Select station:</p>
+			<!-- station selection with NorthStation selected by default -->
+			<button id="NorthStation" class="station-select selected">North Station</button>
+			<button id="SouthStation" class="station-select">South Station</button>
 			<br>
 			<!-- consider dynamic generation; possibly save space -->
 			<div id="legend-box">
@@ -33,7 +33,7 @@
 						<tr>
 							<td class="normal">On Time</td>
 							<td class="good">Arriving</td>
-							<td class="imminent">Departing Soon</td>
+							<td class="imminent">Departing <span class="bolder">soon</span></td>
 						</tr>	
 						<tr>
 							<td class="bad">Delayed</td>
@@ -43,7 +43,7 @@
 					</tbody>
 				</table>
 			</div>
-			<table id="departureHeader" class="nonselect">
+			<table id="departureHeader" class="nonselect bolder">
 				<tbody>
 					<tr>
 						<td>Train</td>

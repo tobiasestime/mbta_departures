@@ -1,7 +1,8 @@
 /*
 Serves the requests for the application using Express.js
 Data is periodically broadcasted using Socket.io, but could be polled
-	from the client via AJAX to access controller action that performs GET requests for data.
+from clients via AJAX to access controller actions that performs GET
+requests for data.
 */
 
 /* Timezone */
@@ -15,13 +16,13 @@ var http = require('http');
 var server = http.Server(app).listen((process.env.PORT || 8085), () => {
 	console.log(`Listening on port ${(process.env.PORT || 8085)}`);
 });
-/* Create socket instance with server */
+/* Create socket instance that shares server*/
 var io = require('socket.io')(server);
 
 /* Helper functions for converting CSV to JSON */
 var convert = require('./convert.js');
 
-/* Values Separated to be accessed easily, changed, added to, etc. */
+/* Values separated to be accessed easily, changed, added to, etc. */
 var values = {
 	/* dataSource: 'http://127.0.0.1:8080/departures/Departures.csv', */
 	dataSource: 'http://developer.mbta.com/lib/gtrtfs/Departures.csv',
@@ -29,37 +30,34 @@ var values = {
 	broadcastTime: 30000
 }
 
-/* Designation of static resources (client js, css, etc.) */
+/* Designation of static resources (js, css, etc.) */
 app.use(express.static(__dirname + '/public'));
 
-/* The only route used by the application (when using socket.io) - to access the single-page app */
+/* The only route used by the single-page application (when using socket.io instead of using AJAX) */
 app.get('/', (req, res) => {
 	res.sendFile('/index.html');
 });
 
 /*
 Access the departure data API and emit events for broadcast
-Could cache most recent data rather than repeating request
+Could cache most recent data rather than repeating request for new connections
 */
 function emitFromHttp(socket, URI) {
 	/* http GET request for train departure data */
 	http.get(URI, (httpRes) => {
 		/* Gather chunks of data as they are sent */
-		var allData = "";
+		var allData = '';
 		httpRes.setEncoding('utf8').on('data', (partData) => {
 			allData += partData;
 		});
-		/* Broadcast data as JSON once all chunks from the request are gathered */
+		/* Broadcast data formatted from CSV to JSON once all chunks from the request are gathered */
 		httpRes.on('end', () => {
 			/* Data integrity checks could be implemented here before responding */
-			socket.emit('update', convert.csvToObjectArray(allData, "scheduledtime"));
-			/*
-			Console logging for development purposes only
-			Notifications or analytics might be implemented in production to track performance
-			*/
+			socket.emit('update', convert.csvToObjectArray(allData, 'scheduledtime'));
+			/* Notifications or analytics might be implemented in production to track performance */
 		});
 	}).setTimeout(values.dataTimeout, () => {
-		/* Could use flags to notify clients of failures in production */
+		/* Flags to notify clients of problems getting data */
 		socket.emit('update', [{flag: 'TIMEOUT'}]);
 	}).on('error', () => {
 		socket.emit('update', [{flag: 'NODATA'}]);
@@ -67,11 +65,13 @@ function emitFromHttp(socket, URI) {
 }
 
 /*
-On connecting, broadcast the CSV data as JSON using emitFromHttp
-Broadcast new data every 'broadcastInt' seconds
+When clients connect, broadcast the CSV data as JSON using emitFromHttp
+Broadcast new data from 'dataSource' every 'broadcastInt' seconds
 */
 io.on('connection', (socket) => {
+	/* Initial broadcast */
 	emitFromHttp(socket, values.dataSource);
+	/* Subsequent broadcasts */
 	var trains = setInterval(() => {
 		emitFromHttp(socket, values.dataSource);
 	}, values.broadcastTime);

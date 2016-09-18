@@ -5,33 +5,35 @@ Additional JS to manipulate data visibility
 */
 (function DepartMain($) {
 
-	/* Controls for station selection */
+	/* Controls for station visibility selection */
 	var stationSelect = {
 		/* NorthStation selected by default */
 		selection: "NorthStation",
 		select: function(value) {
 			this.selection = value;
-			$("#departureTable tr").toArray().forEach(function(r) {
+			/* Iterate through table rows to determine which ones are hidden */
+			$("#departureTable tr").toArray().forEach(function(row) {
 				/* Array of classes for row */
-				var classArray = $(r).attr("class").split(" ");
+				var classArray = $(row).attr("class").split(" ");
 				/* Remove hidden class for clarity */
 				if (classArray.indexOf("hidden") > -1) {
 					classArray.pop();
 				}
 				classArray = classArray.join(" ");
-				/* If class does not match value, add hidden styling class */
-				$(r).attr("class", (classArray.indexOf(value) > -1) ? classArray : classArray + " hidden");
+				/* If class does contain value, add hidden styling class */
+				$(row).attr("class", (classArray.indexOf(value) > -1) ? classArray : classArray + " hidden");
 			});
 		}
 	};
 
 	/* Attach event listeners to buttons to change selection and colors */
-	$("button.station-select").toArray().forEach(function(b) {
-		$(b).click(function() {
+	$(".station-select").toArray().forEach(function(button) {
+		$(button).click(function() {
 			/* Select station clicked */
-			stationSelect.select($(b).attr("id"));
-			$("button.station-select").not(b).css({"background-color": "#fff", "color": "#000"});
-			$(b).css({"background-color": "#812b5a", "color": "#fff"});
+			stationSelect.select($(button).attr("id"));
+			/* Style clicked button */
+			$(".station-select").not(button).removeClass("selected");
+			$(button).addClass("selected");
 		});
 	});
 
@@ -56,7 +58,7 @@ Additional JS to manipulate data visibility
 
 	/*
 	Each departure is translated into a table row
-	Table cells correspond to properties from our objects
+	Table cells correspond to properties from objects in array sent from server
 	*/
 	var Departure = React.createClass({
 		render: function() {
@@ -73,7 +75,7 @@ Additional JS to manipulate data visibility
 				<tr className={origin + " " + statusFormat + visibility}>
 					<td className="center">{this.props.trip}</td>
 					<td>{this.props.destination}</td>
-					<td><span className={this.props.status}>{formattedTime[0] + " " + formattedTime[1]}</span></td>
+					<td><span className={this.props.status}>{formattedTime[0]}<span className="smaller">{" " + formattedTime[1]}</span></span></td>
 					<td className="center">{trackFormat}</td>
 				</tr>
 			);
@@ -85,27 +87,26 @@ Additional JS to manipulate data visibility
 		render: function() {
 			var departureNodes = this.props.data.map(function(data) {
 				return (
-					<Departure origin={data.origin} trip={data.trip} destination={data.destination} scheduledtime={data.scheduledtime} track={data.track} status={data.status} updatetime={data.timestamp}></Departure>
+					<Departure origin={data.origin} trip={data.trip} destination={data.destination} scheduledtime={data.scheduledtime} track={data.track} status={data.status}></Departure>
 				);
 			});
 			return (
 				<table id="departureTable">
-					{departureNodes}
+					<tbody>
+						{departureNodes}
+					</tbody>
 				</table>
 			);
 		}
 	});
 
-	/* Render React DOM */
+	/* React DOM rendering */
 	var reactDepartures = ReactDOM.render(<DepartureBox />, document.getElementById("content"));
 
-	/* Create Socket connection */
+	/* Create socket connection */
 	var socket = io();
 
-	/* Emit event to get ball rolling */
-	socket.emit("filter", "NorthStation");
-
-	/* Listen for update events and update React with new data */
+	/* Listen for "update" events and update React with data from server */
 	socket.on("update", function(departures) {
 		document.getElementById("updated").innerHTML = "Updated " + departures[0].timestamp + " (Boston)";
 		reactDepartures.updateData(departures);

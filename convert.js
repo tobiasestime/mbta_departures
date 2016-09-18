@@ -1,6 +1,5 @@
 /*
-Convert
-Functions for converting CSV into an array of objects
+Functions for converting CSV into an array of objects with data type formatting
 */
 
 /* Remove white space, parse numbers from string values from CSV */
@@ -30,7 +29,7 @@ function _makeHumanReadable(timestamp, offset) {
 	return timePart + " " + datePart;
 }
 
-/* Return a simplfied status for styling classes */
+/* Return a simplfied status for styling classes (app-specific) */
 function _getStatus(status) {
 	var statusOptions = [ "normal", "good", "imminent", "alert", "bad", "worse", "departed", "unknown" ];
 	var selections = {
@@ -49,24 +48,28 @@ function _getStatus(status) {
 		TBD: statusOptions[7]
 	};
 	
+	/* If a simplified status is found for the status provided, return it; otherwise return "unknown" */
 	return (Object.keys(selections).indexOf(status) > -1) ? selections[status] : statusOptions[7];
 }
 
+/* Expose the csvToObjectArray to the program importing this file */
 module.exports = {
 	/* Convert CSV rows to array of objects */
 	csvToObjectArray: function (csv, sortOn) {
 		/*
-		Replace empty cells with TBD and remove text quotation marks
-		Quotation mark removal is done blindly since we don't expect commas in strings
+		Replace empty cells with TBD (app-specific) and remove text quotation marks
+		Quotation mark removal is done blindly since we don't expect commas in strings for this app
 		*/
 		var csvArray = csv.replace(/, *,/g, ",TBD,").replace(/['"]/g, "").split("\n"),
-		/* Spearate keys (first row) into own array */
+		/* Spearate keys (header row) into own array */
 			keys = _parseCsvStrings(csvArray[0].toLowerCase().split(","));
+		/* Remove header row from rest of CSV */
 		csvArray.shift();
-		/* Discard last line of CSV if empty*/
+		/* Discard last line of CSV if empty */
 		if (csvArray[csvArray.length - 1] === "")
 			csvArray.pop();
 
+		/* Array of objects to be populated and returned */
 		var objectArray = [];
 
 		/* "Zip" keys and values into object, push into objectArray to return */
@@ -79,21 +82,20 @@ module.exports = {
 			objectArray.push(rowObject);
 		});
 
-		/* Sort by scheduled time */
+		/* Sort objects in objectArray by sortOn (scheduled time) */
 		objectArray.sort((a, b) => {
 			return (a[sortOn] === b[sortOn]) ? 0 : ((a[sortOn] < b[sortOn]) ? -1 : 1);
 		});
 
-		/*
-		Simplify status indicator
-		Add lateness seconds
-		"De-generalizes" function; consider alternatives
-		*/
+		/* App-specific formatting */
 		objectArray.forEach((rowObject) => {
+			/* Simplify status indicator */
 			rowObject["status"] = _getStatus(rowObject["status"].replace(/ /g, ""));
+			/* Format timestamp */
 			rowObject["timestamp"] = _makeHumanReadable(rowObject["timestamp"], 0);
+			/* Add lateness seconds to scheuled time only */
 			rowObject["scheduledtime"] = _makeHumanReadable(rowObject["scheduledtime"], rowObject["lateness"]);
-			/* Accounted for already */
+			/* Lateness is accounted for already, so we can remove it */
 			delete rowObject["lateness"];
 		});
 

@@ -1,0 +1,20 @@
+{
+  "name": "mbta_departs",
+  "version": "2.0.0",
+  "description": "MBTA train departures",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node app.js"
+  },
+  "keywords": [
+    "MBTA",
+    "train"
+  ],
+  "author": "Tobias Estime",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0",
+    "socket.io": "^1.4.8"
+  }
+}

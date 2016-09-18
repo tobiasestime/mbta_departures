@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0"/>
+    	<meta name="description" content="T departures table for commuter rail">
+    	<meta name="keywords" content="T, API, real-time, commuter, trains, public, transportation">
+		<title>Commuter Rail Departures</title>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+		<link rel="icon" href="favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+		<script src="js/jquery.min.js"></script>
+		<script src="js/socket.io-1.4.5.js"></script>
+		<script src="js/react.min.js"></script>
+		<script src="js/react-dom.min.js"></script>
+		<script src="js/browser.min.js"></script>
+		<script src="js/remarkable.min.js"></script>
+	</head>
+	<body>
+		<div id="header">
+			<h1>T Commuter Rail <span class="cut">Departures</span></h1>
+			<!-- changes on update from Socket -->
+			<p id="updated"></p>
+			<p class="smaller">Select Station:</p>
+			<!-- station selection -->
+			<button id="NorthStation" class="station-select">North Station</button>
+			<button id="SouthStation" class="station-select">South Station</button>
+			<br>
+			<!-- consider dynamic generation; possibly save space -->
+			<div id="legend-box">
+				<table class="legend-table">
+					<tbody>
+						<tr>
+							<td class="normal">On Time</td>
+							<td class="good">Arriving</td>
+							<td class="imminent">Departing Soon</td>
+						</tr>
+						<tr>
+							<td class="bad">Delayed</td>
+							<td class="worse">Cancelled</td>
+							<td class="departed">Departed</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<table id="departureHeader">
+				<tbody>
+					<tr>
+						<th>Train</th>
+						<th>Destination</th>
+						<th>Dep<span class="cut">arture</span></th>
+						<th>Track</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- departure table -->
+		<div id="content"></div>
+		<br>
+		<br>
+		<footer>contact@contact.com | September 2016</footer>
+		<script type="text/babel" src="js/depart.js"></script>
+	</body>
+</html>

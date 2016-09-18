@@ -1,0 +1,167 @@
+@font-face {
+	font-family: 'open sans';
+		src: url('fonts/OpenSans-Regular.eot');
+		src: url('fonts/OpenSans-Regular.eot?#iefix') format('embedded-opentype'),
+		url('fonts/OpenSans-Regular.woff') format('woff'),
+		url('fonts/OpenSans-Regular.ttf') format('truetype'),
+		url('fonts/OpenSans-Regular.svg#open_sansregular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	margin: 0px;
+	text-align: center;
+	font-family: 'Trebuchet MS', 'Helvetica', 'Open Sans', 'Arial';
+	background-image: url('images/map.jpg');
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+h1, p {
+	margin: 6px 0px;
+}
+
+.station-select {
+	margin-bottom: 4px;
+	border: 1px solid #222;
+	border-radius: 2px;
+	font-size: 1em;
+	background: #fff;
+}
+
+/* Default selection */
+button#NorthStation {
+	color: #fff;
+	background-color: #812b5a;
+}
+
+#header {
+	width: 100%;
+	position: fixed;
+	top: 0px;
+	background: rgba(255, 255, 255, 0.9);
+	background: url('images/white_glass.png'); 
+	box-shadow: 0px 1px 2px #666;
+}
+
+#updated {
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+.smaller {
+	font-size: 0.9em;
+}
+
+#content {
+	margin: 245px auto 0px;
+	display: inline-block;
+}
+
+#content, #departureHeader, #legend-box {
+	width: 450px;
+}
+
+#legend-box {
+	margin: 0px auto 8px;
+	display: inline-block;
+}
+
+
+.legend-table {
+	table-layout: fixed;
+}
+
+.legend-table td {
+	padding: 5px;
+}
+
+select {
+	text-align: center;
+	font-size: 1em;
+}
+
+table {
+	width: 100%;
+	border-width: 0px;
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+
+#departureHeader {
+	margin: 0px auto;
+}
+
+#departureHeader th {
+	padding: 10px 4px;
+	color: #fff;
+	background: #222;
+}
+
+#departureHeader th:nth-child(2), #departureTable td:nth-child(2) {
+	width: 55%;
+}
+
+#departureBox td {
+	padding: 5px 0px;
+}
+
+#departureBox th, #departureBox td {
+	border-bottom: 1px solid #fff;
+}
+
+.normal {
+	background: #f5a6d1;
+}
+
+.good {
+	background: #5dc9ff;
+}
+
+.imminent {
+	font-weight: bold;
+	background: #3add6e;
+}
+
+.bad {
+	background: #e8f066;
+}
+
+.worse {
+	background: #f0ab66;
+}
+
+.departed {
+	background: #ccc;
+}
+
+.unknown {
+	background: #eee;
+}
+
+footer {
+	padding-bottom: 15px;
+}
+
+.hidden {
+	display: none;
+}
+
+@media (max-width: 450px) {
+	body {
+		font-size: 0.9em;
+	}
+
+	#legend-box, #content, #departureTable, #departureHeader {
+		width: 100%;
+	}
+	
+	#departureBox th {
+		padding: 10px 1px;
+	}
+
+	.cut {
+		display: none;
+	}
+}

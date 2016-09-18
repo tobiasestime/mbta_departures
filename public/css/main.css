@@ -192,6 +192,11 @@ footer {
 
 /* Resposiveness */
 @media (max-width: 600px) {
+
+	body {
+		background: #d6b4de;
+	}
+
 	h1 {
 		font-size: 20px;
 	}

@@ -7,7 +7,7 @@ Additional JS to manipulate data visibility
 
 	/* Controls for station visibility selection */
 	var stationSelect = {
-		/* NorthStation selected by default */
+		/* NorthStation selected by default; consider doing dynamically */
 		selection: "NorthStation",
 		select: function(value) {
 			this.selection = value;

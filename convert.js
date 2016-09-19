@@ -19,8 +19,8 @@ function _getStatus(status) {
 	var selections = {
 		OnTime: statusOptions[0],
 		Arriving: statusOptions[1],
+		Arrived: statusOptions[1],
 		NowBoarding: statusOptions[2],
-		Arrived: statusOptions[2],
 		AllAboard:statusOptions[3],
 		Delayed: statusOptions[4],
 		Late: statusOptions[4],

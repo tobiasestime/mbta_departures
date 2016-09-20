@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 });
 
 /* Handle 404s */
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
 	res.status(404).send('Not here. Not today. Try https://tdepartures.herokuapp.com');
 });
 
@@ -77,10 +77,10 @@ io.on('connection', (socket) => {
 	/* Initial broadcast */
 	emitFromHttp(socket, settings.dataSource);
 	/* Subsequent broadcasts */
-	var trains = setInterval(() => {
+	var broadcast = setInterval(() => {
 		emitFromHttp(socket, settings.dataSource);
 	}, settings.broadcastTime);
 	socket.on('disconnect', () => {
-		clearInterval(trains);
+		clearInterval(broadcast);
 	});
 });

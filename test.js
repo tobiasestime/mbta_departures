@@ -9,9 +9,8 @@ var files = ['testEmpty.csv', 'testHeader.csv', 'testComplete.csv'];
 files.forEach((file) => {
 	fs.readFile('./testFiles/' + file, 'utf8', (err, data) => {
 		var result = convert.csvToObjectArray(data, "scheduledtime");
-		if (!("timestamp" in result[0])) {
+		if (!("timestamp" in result[0]))
 			throw "No timestamp found";
-		}
 	});
 });
 

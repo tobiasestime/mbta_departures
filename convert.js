@@ -7,8 +7,7 @@ var settings = require('./settings.json');
 
 /* Remove white space, parse numbers from string values from CSV */
 function _parseCsvStrings(arrayIn) {
-	var map = Array.prototype.map;
-	return map.call(arrayIn, (x) => {
+	return arrayIn.map((x) => {
 		/* Remove any white space from values */
 		x = x.trim();
 		/* Convert strings to numbers when only containing digits */

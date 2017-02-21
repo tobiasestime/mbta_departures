@@ -7,7 +7,7 @@ This application was designed to display train departure data from a publicly av
 * convert.js (root folder) contains some formatting functions used by the main application.
 * depart.js (public folder) contains the client-side logic, using React.js to display new data as it is received.
 
-View the application [here](https://tdepartures.herokuapp.com/). Since it's in development, uptime may not be 100%.
+View the application [here](https://tdepartures.herokuapp.com/). Since it's being hosted for free on Heroku, it may take some time to load.
 
 See the diagram (root folder) and review the comments in the programs to better understand the application's details.
 

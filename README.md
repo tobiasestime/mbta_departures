@@ -1,7 +1,7 @@
 # mbta_departures
 Displaying MBTA train departure data
 
-This application was designed to display train departure data from a publicly available MBTA API. It is a Node.js application, using Express.js to handle server-side requests, Socket.io to broadcast data to clients (via web sockets or polling), and React.js to update the DOM with data from the server.
+This application was designed to display train departure data from a publicly available MBTA API. It is a Node.js application, using Express.js to handle server-side requests, Socket.io to broadcast data to clients (via WebSockets or polling), and React.js to update the DOM with data from the server.
 
 * app.js (in the root folder) contains the server-side of logic for obtaining, formatting, and periodically broadcasting MBTA data to clients.
 * convert.js (root folder) contains some formatting functions used by the main application.
